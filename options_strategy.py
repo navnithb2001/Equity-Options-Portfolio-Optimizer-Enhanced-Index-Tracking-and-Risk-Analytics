@@ -36,7 +36,6 @@ class OptionStrategy:
     def run_strategy(self):
         for idx, row in self.data.iterrows():
             self.trading_rule(row)
-            # Portfolio value is cash + position value at current close price
             current_price = row['close']
             self.position_value = self.position * current_price
             total_value = self.cash + self.position_value
@@ -48,16 +47,3 @@ class OptionStrategy:
         valuation_df = self.run_strategy()
         valuation_df['return_option'] = valuation_df['value'].pct_change()
         return valuation_df
-
-# # Usage example
-# if __name__ == "__main__":
-#     # option_price_df should be a DataFrame with columns ['date', 'close']
-#     # loaded from your fetched option price data
-#     option_price_df = pd.DataFrame({
-#         'date': pd.date_range("2025-07-01", periods=10, freq='D'),
-#         'close': [58.29, 62.37, 63.55, 63.10, 58.64, 59.00, 60.0, 61.5, 62.0, 63.0]
-#     })
-
-#     strategy = OptionStrategy(option_price_df)
-#     returns_df = strategy.compute_returns()
-#     print(returns_df)
